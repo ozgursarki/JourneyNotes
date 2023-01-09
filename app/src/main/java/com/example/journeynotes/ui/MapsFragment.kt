@@ -1,16 +1,30 @@
 package com.example.journeynotes.ui
 
 import android.Manifest
+import android.app.Activity
+import android.content.Context
+import android.content.Context.LOCATION_SERVICE
+import android.content.pm.PackageManager
+import android.content.pm.PackageManager.*
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.journeynotes.R
 import com.example.journeynotes.databinding.FragmentMapsBinding
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
@@ -19,21 +33,20 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.android.material.snackbar.Snackbar
 import com.skydoves.balloon.*
+
 
 class MapsFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener,OnMapClickListener {
 
     private lateinit var binding: FragmentMapsBinding
     private lateinit var mMap: GoogleMap
     private lateinit var mapView: MapView
+    private lateinit var locationManager: LocationManager
+    private lateinit var locationListener: LocationListener
+    private lateinit var permissionLauncher: ActivityResultLauncher<String>
 
-    private var requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-        if(it) {
-            Toast.makeText(requireContext(),"Permission Not Denied",Toast.LENGTH_LONG).show()
-        }else {
-            Toast.makeText(requireContext(),"Permission Denied",Toast.LENGTH_LONG).show()
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +62,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener,OnMap
         mapView = binding.map
         mapView.getMapAsync(this)
         mapView.onCreate(savedInstanceState)
-        requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        registerLauncher()
+        permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+
+
     }
 
     override fun onStart() {
@@ -84,6 +100,37 @@ class MapsFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener,OnMap
 
         mMap.setOnMapClickListener(this)
         mMap.setOnMarkerClickListener(this)
+
+        locationManager = requireContext().getSystemService(LOCATION_SERVICE) as LocationManager
+
+        locationListener = LocationListener { location -> println("location : $location") }
+
+
+        if (ContextCompat.checkSelfPermission!!(
+                Activity(),Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        ) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(Activity(),Manifest.permission.ACCESS_FINE_LOCATION)) {
+                Snackbar.make(binding.root,"Permission needed",Snackbar.LENGTH_INDEFINITE).setAction("Give Permission") {
+                permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                }.show()
+            }else {
+                permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            }
+        }else {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0f,locationListener)
+        }
+        mMap.isMyLocationEnabled = true
+
+        val fusedLocationClient: FusedLocationProviderClient =
+           LocationServices.getFusedLocationProviderClient(requireContext());
+        fusedLocationClient.lastLocation.addOnSuccessListener {
+            if (it != null) {
+                val latLong = LatLng(it.latitude,it.longitude);
+                mMap.addMarker(MarkerOptions().position(latLong))
+            }
+        }
+
+
     }
 
     override fun onMarkerClick(p0: Marker): Boolean {
@@ -115,5 +162,18 @@ class MapsFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener,OnMap
         mMap.clear()
 
         mMap.addMarker(MarkerOptions().position(location).title("You clicked here!"))
+    }
+
+    private fun registerLauncher(){
+        permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
+            if (result) {
+                if(ContextCompat.checkSelfPermission(requireContext(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0f,locationListener)
+                }
+            }else {
+                Toast.makeText(requireContext(),"Permission needed",Toast.LENGTH_LONG).show()
+            }
+
+        }
     }
 }
