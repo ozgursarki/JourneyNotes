@@ -51,4 +51,7 @@ dependencies {
     // Kotlin
     implementation "androidx.navigation:navigation-fragment-ktx:$versions.nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$versions.nav_version"
+
+    //balloon
+    implementation "com.github.skydoves:balloon:$versions.balloon_version"
 }

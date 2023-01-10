@@ -3,11 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ui.AddNotesFragment">
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/map"
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:apiKey="AIzaSyB44csNmUjZwIcwUUvsNYdPPwmf8qwPIKU" />
+        android:text="@string/hello_blank_fragment" />
+
 </FrameLayout>
