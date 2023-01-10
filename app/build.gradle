@@ -53,5 +53,5 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$versions.nav_version"
 
     //balloon
-    implementation "com.github.skydoves:balloon:1.5.2"
+    implementation "com.github.skydoves:balloon:$versions.balloon_version"
 }
