@@ -19,7 +19,10 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.example.journeynotes.R
 import com.example.journeynotes.databinding.FragmentMapsBinding
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -44,6 +47,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener,OnMap
     private lateinit var locationListener: LocationListener
     private lateinit var permissionLauncher : ActivityResultLauncher<String>
     private var trackBoolean : Boolean = false
+
 
 
     override fun onCreateView(
