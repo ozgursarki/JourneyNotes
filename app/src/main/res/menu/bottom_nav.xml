@@ -5,7 +5,7 @@
         android:icon="@drawable/ic_baseline_home_24"
         android:title="Maps" />
     <item
-        android:id="@+id/addNotesFragment"
+        android:id="@+id/notesFragment"
         android:icon="@drawable/ic_baseline_note_24"
         android:title="Notes" />
 </menu>

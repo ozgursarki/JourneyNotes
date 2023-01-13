@@ -5,13 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import com.example.journeynotes.R
-import com.example.journeynotes.databinding.FragmentAddNotesBinding
+import com.example.journeynotes.databinding.FragmentNotesBinding
 
-class AddNotesFragment : Fragment() {
+class NotesFragment : Fragment() {
 
-    private lateinit var binding : FragmentAddNotesBinding
+    private lateinit var binding : FragmentNotesBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,14 +21,9 @@ class AddNotesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentAddNotesBinding.inflate(inflater,container,false)
+    ): View? {
+        binding = FragmentNotesBinding.inflate(inflater,container,false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-    }
 }
