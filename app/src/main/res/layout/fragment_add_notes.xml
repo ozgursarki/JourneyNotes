@@ -60,6 +60,7 @@
         android:backgroundTint="@color/orange"
         android:src="@drawable/ic_baseline_add_24"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:tint="@color/white"
         app:layout_constraintEnd_toEndOf="parent" />
 
 

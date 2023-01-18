@@ -25,6 +25,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.example.journeynotes.R
 import com.example.journeynotes.databinding.FragmentMapsBinding
+import com.example.journeynotes.model.Place
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener
@@ -47,6 +48,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener,OnMap
     private lateinit var locationListener: LocationListener
     private lateinit var permissionLauncher : ActivityResultLauncher<String>
     private var trackBoolean : Boolean = false
+
 
 
 
@@ -195,5 +197,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener,OnMap
         mMap.clear()
 
         mMap.addMarker(MarkerOptions().position(p0))
+
     }
+
 }
