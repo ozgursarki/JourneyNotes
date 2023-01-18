@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mapsFragment"
-        android:name="com.example.journeynotes.ui.MapsFragment"
+        android:name="com.example.journeynotes.ui.map.MapsFragment"
         android:label="fragment_maps"
         tools:layout="@layout/fragment_maps" >
         <action
@@ -20,19 +20,22 @@
     </fragment>
     <fragment
         android:id="@+id/addNotesFragment"
-        android:name="com.example.journeynotes.ui.AddNotesFragment"
+        android:name="com.example.journeynotes.ui.addnotes.AddNotesFragment"
         android:label="fragment_add_notes"
         tools:layout="@layout/fragment_add_notes" >
+
         <action
-            android:id="@+id/action_addNotesFragment_to_mapsFragment"
-            app:destination="@id/mapsFragment" />
-        <action
-            android:id="@+id/action_addNotesFragment_to_notesFragment2"
-            app:destination="@id/notesFragment" />
+            android:id="@+id/action_addNotesFragment_to_notesFragment"
+            app:destination="@id/notesFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/mapsFragment"/>
+        <argument
+            android:name="location"
+            app:argType="com.example.journeynotes.domain.model.Location" />
     </fragment>
     <fragment
         android:id="@+id/notesFragment"
-        android:name="com.example.journeynotes.ui.NotesFragment"
+        android:name="com.example.journeynotes.ui.notes.NotesFragment"
         android:label="fragment_notes"
         tools:layout="@layout/fragment_notes" />
 </navigation>

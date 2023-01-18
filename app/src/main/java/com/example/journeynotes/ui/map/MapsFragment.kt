@@ -1,10 +1,7 @@
-package com.example.journeynotes.ui
+package com.example.journeynotes.ui.map
 
 import android.Manifest
-import android.content.Context
 import android.content.Context.LOCATION_SERVICE
-import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
@@ -19,17 +16,12 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.example.journeynotes.R
 import com.example.journeynotes.databinding.FragmentMapsBinding
-import com.example.journeynotes.model.Place
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener
-import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -38,7 +30,9 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import com.skydoves.balloon.*
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MapsFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener,OnMapClickListener {
 
     private lateinit var binding: FragmentMapsBinding
@@ -148,8 +142,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener,OnMap
         mMap.setOnMarkerClickListener(this)
     }
 
-    override fun onMarkerClick(p0: Marker): Boolean {
+    override fun onMarkerClick(marker: Marker): Boolean {
 
+        val location = com.example.journeynotes.domain.model.Location(marker.position.latitude,marker.position.longitude)
         val balloon = Balloon.Builder(requireContext())
             .setWidthRatio(1.0f)
             .setHeight(BalloonSizeSpec.WRAP)
@@ -163,7 +158,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener,OnMap
             .setBalloonAnimation(BalloonAnimation.ELASTIC)
             .setLifecycleOwner(viewLifecycleOwner)
             .setOnBalloonClickListener {
-                val action = MapsFragmentDirections.actionMapsFragmentToAddNotesFragment()
+                val action = MapsFragmentDirections.actionMapsFragmentToAddNotesFragment(location)
                 findNavController().navigate(action)
             }
             .build()
