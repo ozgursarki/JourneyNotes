@@ -17,5 +17,6 @@ fun Note.toNoteEntity(): NoteEntity {
         id = id,
         title = title,
         description = description,
+        location = location
     )
 }
