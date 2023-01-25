@@ -36,4 +36,5 @@ object AppModule {
     fun providePlaceDao(placedb: NoteDatabase) : NoteDao {
         return placedb.placeDao()
     }
+
 }
