@@ -14,6 +14,7 @@ import com.example.journeynotes.R
 import com.example.journeynotes.databinding.FragmentAddNotesBinding
 import com.example.journeynotes.domain.model.Note
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDate
 
 @AndroidEntryPoint
 class AddNotesFragment : Fragment() {
@@ -56,7 +57,12 @@ class AddNotesFragment : Fragment() {
             val title = binding.title.editText?.text.toString()
             val description = binding.title.editText?.text.toString()
             if (inputCheck(title,description) ) {
-                val note = Note(title = title ,description = description, location = location)
+                val note = Note(
+                    title = title,
+                    description = description,
+                    location = location,
+                    date = LocalDate.now(),
+                )
                 addNotesViewModel.insertDatatoDatabase(note)
                 findNavController().navigate(R.id.action_addNotesFragment_to_notesFragment)
 

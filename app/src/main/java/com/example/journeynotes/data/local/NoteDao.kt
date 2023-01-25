@@ -5,7 +5,7 @@ import androidx.room.*
 @Dao
 interface NoteDao {
 
-    @Query("SELECT * FROM Note")
+    @Query("SELECT * FROM NoteEntity")
     suspend fun getAllPlaces() : List<NoteEntity>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
