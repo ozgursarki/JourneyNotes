@@ -11,7 +11,7 @@ class NotesFragmentAdapter(private val noteList: ArrayList<Note> = arrayListOf()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
-        return NotesViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.custom_row,parent,false))
+        return NotesViewHolder.create(parent)
     }
 
 

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.journeynotes.ui.adapter.NotesFragmentAdapter
 import com.example.journeynotes.databinding.FragmentNotesBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +34,8 @@ class NotesFragment : Fragment() {
         val adapter = NotesFragmentAdapter()
         val recyclerView = binding.notesRv
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
+        recyclerView.setHasFixedSize(true)
 
         viewModel.notes.observe(viewLifecycleOwner) {
             adapter.setNotesList(it)
