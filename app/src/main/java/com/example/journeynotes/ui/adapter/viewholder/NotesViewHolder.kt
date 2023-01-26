@@ -15,10 +15,13 @@ class NotesViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
 
-    fun bind(note: Note) {
+    fun bind(note: Note, deleteNoteCallBack : (Note) -> Unit) {
         binding.noteTitle.text = note.title
         binding.noteDescription.text = note.description
         binding.noteDate.text = note.date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+        binding.noteDelete.setOnClickListener{
+            deleteNoteCallBack.invoke(note)
+        }
     }
 
     companion object {

@@ -6,41 +6,58 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.journeynotes.ui.adapter.NotesFragmentAdapter
 import com.example.journeynotes.databinding.FragmentNotesBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class NotesFragment : Fragment() {
 
-    private lateinit var binding : FragmentNotesBinding
-    private val viewModel : NotesViewModel by viewModels()
-
+    private lateinit var binding: FragmentNotesBinding
+    private val viewModel: NotesViewModel by viewModels()
+    private lateinit var adapter: NotesFragmentAdapter
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentNotesBinding.inflate(inflater,container,false)
+        binding = FragmentNotesBinding.inflate(inflater, container, false)
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.notes.collect {
+                        handleNotesUIState(it)
+                    }
+                }
+            }
+        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = NotesFragmentAdapter()
+        adapter = NotesFragmentAdapter(deleteNoteCallBack = {
+            viewModel.deleteNoteFromDatabase(it)
+            //viewModel.getNotesFromDatabase()
+        })
         val recyclerView = binding.notesRv
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
+        recyclerView.layoutManager =
+            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         recyclerView.setHasFixedSize(true)
-
-        viewModel.notes.observe(viewLifecycleOwner) {
-            adapter.setNotesList(it)
-        }
 
         viewModel.getNotesFromDatabase()
     }
+
+    private fun handleNotesUIState(noteScreenUiState: NoteScreenUiState) {
+        adapter.setNotesList(noteScreenUiState.noteList)
     }
+}
