@@ -1,16 +1,17 @@
 package com.example.journeynotes.data.local
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NoteDao {
 
     @Query("SELECT * FROM NoteEntity")
-    suspend fun getAllPlaces() : List<NoteEntity>
+    fun getAllNotes() : List<NoteEntity>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addNote(note: NoteEntity)
 
     @Delete
-    suspend fun deletePlace(note: NoteEntity)
+    suspend fun deleteNote(note: NoteEntity)
 }

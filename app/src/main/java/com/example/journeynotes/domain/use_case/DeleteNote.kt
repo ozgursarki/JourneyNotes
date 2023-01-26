@@ -1,15 +1,13 @@
 package com.example.journeynotes.domain.use_case
 
 import com.example.journeynotes.data.NoteRepository
-import com.example.journeynotes.data.local.NoteEntity
 import com.example.journeynotes.domain.model.Note
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetAllNotes @Inject constructor(
+class DeleteNote @Inject constructor(
     private val repository: NoteRepository
 ) {
-    operator fun invoke() : Flow<List<NoteEntity>> {
-        return repository.getNotes()
+    suspend operator fun invoke(note: Note) {
+        repository.deleteNote(note)
     }
 }

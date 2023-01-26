@@ -1,6 +1,7 @@
 package com.example.journeynotes.domain.di
 
 import com.example.journeynotes.data.NoteRepository
+import com.example.journeynotes.domain.use_case.DeleteNote
 import com.example.journeynotes.domain.use_case.GetAllNotes
 import com.example.journeynotes.domain.use_case.InsertNote
 import dagger.Module
@@ -16,13 +17,19 @@ object DomainModule {
 
     @Provides
     @ViewModelScoped
-    fun provideInsertNoteUseCase(repository: NoteRepository) : InsertNote {
+    fun provideInsertNoteUseCase(repository: NoteRepository): InsertNote {
         return InsertNote(repository)
     }
 
     @Provides
     @ViewModelScoped
-    fun provideGetAllNotesUseCase(repository: NoteRepository) : GetAllNotes {
+    fun provideGetAllNotesUseCase(repository: NoteRepository): GetAllNotes {
         return GetAllNotes(repository)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideDeleteNote(repository: NoteRepository): DeleteNote {
+        return DeleteNote(repository)
     }
 }
