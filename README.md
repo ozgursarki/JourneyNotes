@@ -35,7 +35,7 @@ This application is still in progress..
         
       -  NoteDatabase -> The Database to store data via Room ,
         
-       - NoteEntity -> The Entity that is saved to Database via Room
+      - NoteEntity -> The Entity that is saved to Database via Room
         
 - mapper
 	- This package contains mapper for entity model to domain model. By doing this we seperate the network layer from rest of our code
