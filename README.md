@@ -42,7 +42,7 @@ This application is still in progress..
         
 	 - NoteMapper -> Maps the NoteEntity to Note class that is used for view
         
-    NoteRepository -> Used for our data related logic such as getting, deleting, inserting Note 
+ - NoteRepository -> Used for our data related logic such as getting, deleting, inserting Note 
 
 # di
    - Dependency provider functions for our app with Hilt library.
