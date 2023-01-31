@@ -14,4 +14,10 @@ interface NoteDao {
 
     @Delete
     suspend fun deleteNote(note: NoteEntity)
+
+    @Update
+    suspend fun updateNote(note: NoteEntity)
+
+    @Query("SELECT * FROM NoteEntity WHERE id = :id")
+    suspend fun getNoteByID(id:Int) : NoteEntity
 }

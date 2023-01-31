@@ -1,9 +1,7 @@
 package com.example.journeynotes.domain.di
 
 import com.example.journeynotes.data.NoteRepository
-import com.example.journeynotes.domain.use_case.DeleteNote
-import com.example.journeynotes.domain.use_case.GetAllNotes
-import com.example.journeynotes.domain.use_case.InsertNote
+import com.example.journeynotes.domain.use_case.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,5 +29,17 @@ object DomainModule {
     @ViewModelScoped
     fun provideDeleteNote(repository: NoteRepository): DeleteNote {
         return DeleteNote(repository)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideUpdateNote(repository: NoteRepository) : EditNotes {
+        return EditNotes(repository)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideGetNoteByID(repository: NoteRepository) : GetNoteByID {
+        return GetNoteByID(repository)
     }
 }
