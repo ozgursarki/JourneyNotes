@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetAllNotes @Inject constructor(
     private val repository: NoteRepository
 ) {
-    operator fun invoke() : Flow<List<NoteEntity>> {
+    operator fun invoke() : Flow<List<Note>> {
         return repository.getNotes()
     }
 }

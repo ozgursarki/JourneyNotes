@@ -17,10 +17,17 @@ class NoteRepository(private val noteDao: NoteDao) {
         noteDao.addNote(note.toNoteEntity())
     }
 
-    fun getNotes(): Flow<List<NoteEntity>> = flow {
-        val notes = noteDao.getAllNotes()
-        emit(notes)
-    }.flowOn(Dispatchers.IO)
+    fun getNotes(): Flow<List<Note>> {
+        return noteDao.getAllNotes().map {
+            it.map { noteEntity ->
+                noteEntity.toNote()
+
+            }
+        }
+
+    }
+
+
 
     suspend fun deleteNote(note: Note) {
         noteDao.deleteNote(note.toNoteEntity())

@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface NoteDao {
 
     @Query("SELECT * FROM NoteEntity")
-    fun getAllNotes() : List<NoteEntity>
+    fun getAllNotes() : Flow<List<NoteEntity>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addNote(note: NoteEntity)
