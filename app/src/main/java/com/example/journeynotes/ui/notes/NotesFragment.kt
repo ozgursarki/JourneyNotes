@@ -54,7 +54,6 @@ class NotesFragment : Fragment() {
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         recyclerView.setHasFixedSize(true)
 
-        viewModel.getNotesFromDatabase()
     }
 
     private fun handleNotesUIState(noteScreenUiState: NoteScreenUiState) {

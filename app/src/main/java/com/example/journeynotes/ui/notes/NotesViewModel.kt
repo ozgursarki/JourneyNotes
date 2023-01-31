@@ -28,15 +28,16 @@ class NotesViewModel @Inject constructor(
         get() = _notes
 
     var getNotesJob: Job? = null
+    init {
+        getNotesFromDatabase()
+    }
 
-    fun getNotesFromDatabase() {
-        getNotesJob?.cancel()
-        getNotesJob = viewModelScope.launch {
-            getNotesUseCase.invoke().collect {
-            _notes.update { noteScreenUiState ->
-                noteScreenUiState.copy( it.map {
-                    it.toNote()
-                })
+    private fun getNotesFromDatabase() {
+       viewModelScope.launch {
+            val notesUptade = getNotesUseCase.invoke()
+            notesUptade.collect {
+                _notes.update { noteScreenUiState ->
+                    noteScreenUiState.copy(it)
 
             }
             }
@@ -47,6 +48,7 @@ class NotesViewModel @Inject constructor(
     fun deleteNoteFromDatabase(note: Note) {
         viewModelScope.launch {
             deleteNoteUseCase.invoke(note)
+
         }
     }
 }
