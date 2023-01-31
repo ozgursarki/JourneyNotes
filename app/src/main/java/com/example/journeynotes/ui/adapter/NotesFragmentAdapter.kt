@@ -7,7 +7,8 @@ import com.example.journeynotes.domain.model.Note
 
 class NotesFragmentAdapter(
     private val noteList: ArrayList<Note> = arrayListOf(),
-    private val deleteNoteCallBack : (Note) -> Unit
+    private val deleteNoteCallBack : (Note) -> Unit,
+    private val callBackNoteClick : (Note) -> Unit
 ): RecyclerView.Adapter<NotesViewHolder>() {
 
 
@@ -28,9 +29,11 @@ class NotesFragmentAdapter(
     }
 
     override fun onBindViewHolder(holder: NotesViewHolder, position: Int) {
-        holder.bind(noteList[position]) {
+        holder.bind(noteList[position],deleteNoteCallBack = {
             deleteNoteCallBack.invoke(it)
-        }
+        },callBackNoteClick = {
+            callBackNoteClick.invoke(it)
+        })
     }
 
 }

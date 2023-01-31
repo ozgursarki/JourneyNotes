@@ -8,6 +8,7 @@ import com.example.journeynotes.data.NoteRepository
 import com.example.journeynotes.data.mapper.toNote
 import com.example.journeynotes.domain.model.Note
 import com.example.journeynotes.domain.use_case.DeleteNote
+import com.example.journeynotes.domain.use_case.EditNotes
 import com.example.journeynotes.domain.use_case.GetAllNotes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -51,4 +52,5 @@ class NotesViewModel @Inject constructor(
 
         }
     }
+
 }

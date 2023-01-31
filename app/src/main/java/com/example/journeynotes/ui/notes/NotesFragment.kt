@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.journeynotes.ui.adapter.NotesFragmentAdapter
@@ -47,12 +48,16 @@ class NotesFragment : Fragment() {
         adapter = NotesFragmentAdapter(deleteNoteCallBack = {
             viewModel.deleteNoteFromDatabase(it)
             //viewModel.getNotesFromDatabase()
+        }, callBackNoteClick = {
+            val action = NotesFragmentDirections.actionNotesFragmentToEditNoteFragment(it)
+            findNavController().navigate(action)
         })
         val recyclerView = binding.notesRv
         recyclerView.adapter = adapter
         recyclerView.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         recyclerView.setHasFixedSize(true)
+
 
     }
 

@@ -1,8 +1,10 @@
 package com.example.journeynotes.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import java.time.LocalDate
 
-
+@Parcelize
 data class Note(
     var id: Int? = null,
     val title: String,
@@ -10,4 +12,4 @@ data class Note(
     val location: Location,
     val date : LocalDate,
     val color: Int? = null,
-)
+) : Parcelable

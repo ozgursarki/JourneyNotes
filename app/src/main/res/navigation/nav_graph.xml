@@ -37,5 +37,20 @@
         android:id="@+id/notesFragment"
         android:name="com.example.journeynotes.ui.notes.NotesFragment"
         android:label="fragment_notes"
-        tools:layout="@layout/fragment_notes" />
+        tools:layout="@layout/fragment_notes" >
+        <action
+            android:id="@+id/action_notesFragment_to_editNoteFragment"
+            app:destination="@id/editNoteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editNoteFragment"
+        android:name="com.example.journeynotes.ui.editnote.EditNoteFragment"
+        android:label="EditNoteFragment" >
+        <argument
+            android:name="note"
+            app:argType="com.example.journeynotes.domain.model.Note" />
+        <action
+            android:id="@+id/action_editNoteFragment_to_notesFragment"
+            app:destination="@id/notesFragment" />
+    </fragment>
 </navigation>

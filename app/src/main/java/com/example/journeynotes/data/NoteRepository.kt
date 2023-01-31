@@ -32,4 +32,12 @@ class NoteRepository(private val noteDao: NoteDao) {
     suspend fun deleteNote(note: Note) {
         noteDao.deleteNote(note.toNoteEntity())
     }
+
+    suspend fun uptadeNotes(note: Note) {
+        noteDao.updateNote(note.toNoteEntity())
+    }
+
+    suspend fun getNoteByID(id:Int) : Note {
+        return noteDao.getNoteByID(id).toNote()
+    }
 }
