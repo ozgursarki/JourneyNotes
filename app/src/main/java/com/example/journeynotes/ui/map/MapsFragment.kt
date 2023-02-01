@@ -3,6 +3,7 @@ package com.example.journeynotes.ui.map
 import android.Manifest
 import android.content.Context.LOCATION_SERVICE
 import android.content.pm.PackageManager
+import android.graphics.Typeface
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -16,21 +17,31 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.journeynotes.R
 import com.example.journeynotes.databinding.FragmentMapsBinding
+import com.example.journeynotes.domain.model.Note
+import com.example.journeynotes.ui.notes.NotesViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import com.skydoves.balloon.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MapsFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener,OnMapClickListener {
@@ -42,6 +53,8 @@ class MapsFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener,OnMap
     private lateinit var locationListener: LocationListener
     private lateinit var permissionLauncher : ActivityResultLauncher<String>
     private var trackBoolean : Boolean = false
+    private val viewModel: MapsViewModel by viewModels()
+    private var lastMarker : Marker?=null
 
 
 
@@ -59,9 +72,28 @@ class MapsFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener,OnMap
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         mapView = binding.map
         mapView.getMapAsync(this)
         mapView.onCreate(savedInstanceState)
+        viewLifecycleOwner.lifecycleScope.launch{
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.notes.collect {
+                        handleNotes(it)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun handleNotes(notes:List<Note>) {
+        notes.forEach { note ->
+            mMap.addMarker(MarkerOptions().position(LatLng(note.location.latitude!!,note.location.longitude!!)))
+
+        }
+
+
     }
 
     override fun onStart() {
@@ -144,26 +176,36 @@ class MapsFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener,OnMap
 
     override fun onMarkerClick(marker: Marker): Boolean {
 
-        val location = com.example.journeynotes.domain.model.Location(marker.position.latitude,marker.position.longitude)
-        val balloon = Balloon.Builder(requireContext())
-            .setWidthRatio(1.0f)
-            .setHeight(BalloonSizeSpec.WRAP)
-            .setText(getString(R.string.balloon_title))
-            .setTextSize(15f)
-            .setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
-            .setArrowSize(10)
-            .setArrowPosition(0.5f)
-            .setPadding(12)
-            .setCornerRadius(8f)
-            .setBalloonAnimation(BalloonAnimation.ELASTIC)
-            .setLifecycleOwner(viewLifecycleOwner)
-            .setOnBalloonClickListener {
-                val action = MapsFragmentDirections.actionMapsFragmentToAddNotesFragment(location)
-                findNavController().navigate(action)
-            }
-            .build()
+        if(marker.id != lastMarker?.id) {
 
-        binding.root.showAlignTop(balloon)
+        }else {
+            val location = com.example.journeynotes.domain.model.Location(marker.position.latitude,marker.position.longitude)
+            val balloon = Balloon.Builder(requireContext())
+                .setWidth(BalloonSizeSpec.WRAP)
+                .setHeight(BalloonSizeSpec.WRAP)
+                .setText(getString(R.string.balloon_title))
+                .setTextSize(15f)
+                .setArrowPositionRules(ArrowPositionRules.ALIGN_ANCHOR)
+                .setArrowSize(10)
+                .setTextTypeface(Typeface.BOLD)
+                .setArrowPosition(0.5f)
+                .setPadding(12)
+                .setCornerRadius(8f)
+                .setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.orange))
+                .setBalloonAnimation(BalloonAnimation.ELASTIC)
+                .setLifecycleOwner(viewLifecycleOwner)
+                .setOnBalloonClickListener {
+                    val action = MapsFragmentDirections.actionMapsFragmentToAddNotesFragment(location)
+                    findNavController().navigate(action)
+                }
+                .setBalloonAnimation(BalloonAnimation.OVERSHOOT)
+                .setBalloonHighlightAnimation(BalloonHighlightAnimation.HEARTBEAT)
+                .build()
+
+            binding.root.showAlignTop(balloon)
+        }
+
+
 
         return true
     }
@@ -189,9 +231,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener,OnMap
     }
 
     override fun onMapClick(p0: LatLng) {
-        mMap.clear()
+        lastMarker?.remove()
 
-        mMap.addMarker(MarkerOptions().position(p0))
+        lastMarker = mMap.addMarker(MarkerOptions().position(p0))
+        lastMarker?.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
 
     }
 
