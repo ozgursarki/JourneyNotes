@@ -4,7 +4,7 @@ import androidx.room.TypeConverter
 import com.example.journeynotes.domain.model.Location
 import com.google.gson.Gson
 
-class Converters {
+object Converters {
 
     @TypeConverter
     fun fromString(value: String?): Location {

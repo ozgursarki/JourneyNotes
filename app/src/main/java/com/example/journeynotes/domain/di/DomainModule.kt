@@ -42,4 +42,10 @@ object DomainModule {
     fun provideGetNoteByID(repository: NoteRepository) : GetNoteByID {
         return GetNoteByID(repository)
     }
+
+    @Provides
+    @ViewModelScoped
+    fun provideGetNoteByLocation(repository: NoteRepository) : GetNoteByLocation {
+        return GetNoteByLocation(repository)
+    }
 }

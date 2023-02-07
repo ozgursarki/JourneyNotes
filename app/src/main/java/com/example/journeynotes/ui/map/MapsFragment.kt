@@ -25,14 +25,12 @@ import androidx.navigation.fragment.findNavController
 import com.example.journeynotes.R
 import com.example.journeynotes.databinding.FragmentMapsBinding
 import com.example.journeynotes.domain.model.Note
-import com.example.journeynotes.ui.notes.NotesViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
@@ -40,7 +38,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import com.skydoves.balloon.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -72,19 +69,15 @@ class MapsFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener,OnMap
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         mapView = binding.map
         mapView.getMapAsync(this)
         mapView.onCreate(savedInstanceState)
-        viewLifecycleOwner.lifecycleScope.launch{
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.notes.collect {
-                        handleNotes(it)
-                    }
-                }
-            }
+
+        viewModel.note.observe(viewLifecycleOwner) { note ->
+            NoteBottomSheetFragment.newInstance(note).show(parentFragmentManager,NoteBottomSheetFragment.TAG)
+
         }
+
     }
 
     private fun handleNotes(notes:List<Note>) {
@@ -125,6 +118,16 @@ class MapsFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener,OnMap
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+
+        viewLifecycleOwner.lifecycleScope.launch{
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.notes.collect {
+                        handleNotes(it)
+                    }
+                }
+            }
+        }
 
         locationManager = requireActivity().getSystemService(LOCATION_SERVICE) as LocationManager
 
@@ -177,7 +180,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback, OnMarkerClickListener,OnMap
     override fun onMarkerClick(marker: Marker): Boolean {
 
         if(marker.id != lastMarker?.id) {
-
+            viewModel.getNoteByLocation(com.example.journeynotes.domain.model.Location(
+                latitude = marker.position.latitude,
+                longitude = marker.position.longitude
+            ))
         }else {
             val location = com.example.journeynotes.domain.model.Location(marker.position.latitude,marker.position.longitude)
             val balloon = Balloon.Builder(requireContext())
