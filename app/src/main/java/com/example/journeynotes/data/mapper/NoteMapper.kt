@@ -11,7 +11,7 @@ fun NoteEntity.toNote(): Note {
         description = description,
         location = location,
         color = color,
-        date = LocalDate.of(year, month, dayOfMonth)
+        timeStamp = timeStamp
     )
 }
 
@@ -22,8 +22,6 @@ fun Note.toNoteEntity(): NoteEntity {
         description = description,
         location = location,
         color = null,
-        dayOfMonth = date.dayOfMonth,
-        month = date.monthValue,
-        year = date.year
+        timeStamp = timeStamp
     )
 }

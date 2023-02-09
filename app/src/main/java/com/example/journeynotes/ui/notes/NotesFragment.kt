@@ -52,6 +52,12 @@ class NotesFragment : Fragment() {
             val action = NotesFragmentDirections.actionNotesFragmentToEditNoteFragment(it)
             findNavController().navigate(action)
         })
+        binding.artan.setOnClickListener {
+            viewModel.sortNote(true)
+        }
+        binding.azalan.setOnClickListener {
+            viewModel.sortNote(false)
+        }
         val recyclerView = binding.notesRv
         recyclerView.adapter = adapter
         recyclerView.layoutManager =

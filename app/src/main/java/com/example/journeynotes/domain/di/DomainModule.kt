@@ -48,4 +48,10 @@ object DomainModule {
     fun provideGetNoteByLocation(repository: NoteRepository) : GetNoteByLocation {
         return GetNoteByLocation(repository)
     }
+
+    @Provides
+    @ViewModelScoped
+    fun provideSortNoteByDate() : NoteSortUseCase {
+        return NoteSortUseCase()
+    }
 }

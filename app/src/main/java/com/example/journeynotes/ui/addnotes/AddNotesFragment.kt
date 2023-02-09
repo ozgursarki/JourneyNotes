@@ -61,7 +61,7 @@ class AddNotesFragment : Fragment() {
                     title = title,
                     description = description,
                     location = location,
-                    date = LocalDate.now(),
+                    timeStamp = System.currentTimeMillis(),
                 )
                 addNotesViewModel.insertDatatoDatabase(note)
                 findNavController().navigate(R.id.action_addNotesFragment_to_notesFragment)

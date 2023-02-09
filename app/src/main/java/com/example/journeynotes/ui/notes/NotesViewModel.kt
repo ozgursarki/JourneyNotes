@@ -5,11 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.journeynotes.data.NoteRepository
+import com.example.journeynotes.data.local.NoteDatabase.Companion.invoke
 import com.example.journeynotes.data.mapper.toNote
 import com.example.journeynotes.domain.model.Note
 import com.example.journeynotes.domain.use_case.DeleteNote
 import com.example.journeynotes.domain.use_case.EditNotes
 import com.example.journeynotes.domain.use_case.GetAllNotes
+import com.example.journeynotes.domain.use_case.NoteSortUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
@@ -19,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class NotesViewModel @Inject constructor(
     private val getNotesUseCase: GetAllNotes,
-    private val deleteNoteUseCase: DeleteNote
+    private val deleteNoteUseCase: DeleteNote,
+    private val noteSortUseCase: NoteSortUseCase
 ) : ViewModel() {
 
     private val _notes : MutableStateFlow<NoteScreenUiState> =
@@ -50,6 +53,13 @@ class NotesViewModel @Inject constructor(
         viewModelScope.launch {
             deleteNoteUseCase.invoke(note)
 
+        }
+    }
+
+    fun sortNote(ascending: Boolean) {
+        val sortedList = noteSortUseCase.invoke(_notes.value.noteList,ascending)
+        _notes.update { noteScreenUiState ->
+            noteScreenUiState.copy(sortedList)
         }
     }
 

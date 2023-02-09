@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="orange">#FFFA4006</color>
     <color name="noteColor">#FFFFab91</color>
+    <color name="bottom_nav_selected_icon">#FFFA4006</color>
+    <color name="bottom_nav_unselected_icon">#BC654A</color>
 </resources>

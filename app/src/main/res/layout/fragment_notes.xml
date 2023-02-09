@@ -1,13 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.notes.NotesFragment">
 
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center" >
+            <RadioButton
+                android:id="@+id/artan"
+                android:text="ARTAN"
+                android:layout_width="wrap_content"
+                android:buttonTint="@color/black"
+                android:layout_height="wrap_content"/>
+            <RadioButton
+                android:id="@+id/azalan"
+                android:text="AZALAN"
+                android:layout_width="wrap_content"
+                android:buttonTint="@color/black"
+                android:layout_height="wrap_content" />
+
+            </RadioGroup>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notesRv"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

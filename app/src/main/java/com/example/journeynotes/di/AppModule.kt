@@ -22,6 +22,7 @@ object AppModule {
         return Room.databaseBuilder(context,
         NoteDatabase::class.java,
         "place_db")
+            .fallbackToDestructiveMigration()
             .build()
     }
 

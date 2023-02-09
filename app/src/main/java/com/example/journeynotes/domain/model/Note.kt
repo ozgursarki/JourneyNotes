@@ -10,6 +10,6 @@ data class Note(
     val title: String,
     val description: String,
     val location: Location,
-    val date : LocalDate,
+    val timeStamp : Long,
     val color: Int? = null,
 ) : Parcelable

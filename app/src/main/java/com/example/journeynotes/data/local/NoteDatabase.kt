@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.journeynotes.domain.model.Note
 
-@Database(entities = [NoteEntity::class], version = 1)
+@Database(entities = [NoteEntity::class], version = 2)
 @TypeConverters(Converters::class)
 abstract class NoteDatabase : RoomDatabase() {
     abstract fun placeDao(): NoteDao

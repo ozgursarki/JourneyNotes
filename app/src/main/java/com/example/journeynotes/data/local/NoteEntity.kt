@@ -15,12 +15,8 @@ data class NoteEntity(
     var description: String,
     @ColumnInfo(name = "note_location")
     var location: Location,
-    @ColumnInfo(name = "note_day")
-    val dayOfMonth: Int,
-    @ColumnInfo(name = "note_month")
-    val month: Int,
-    @ColumnInfo(name = "note_year")
-    val year: Int,
+    @ColumnInfo(name = "note_date")
+    val timeStamp: Long,
     @ColumnInfo(name = "note_color")
-    val color: Int?,
+    val color: Int?
 )
