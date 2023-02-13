@@ -10,22 +10,29 @@
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center" >
-            <RadioButton
-                android:id="@+id/artan"
-                android:text="ARTAN"
-                android:layout_width="wrap_content"
-                android:buttonTint="@color/black"
-                android:layout_height="wrap_content"/>
-            <RadioButton
-                android:id="@+id/azalan"
-                android:text="AZALAN"
-                android:layout_width="wrap_content"
-                android:buttonTint="@color/black"
-                android:layout_height="wrap_content" />
+        android:gravity="center"
+        android:orientation="horizontal">
 
-            </RadioGroup>
+        <RadioButton
+            android:id="@+id/artan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/black"
+            android:text="ARTAN" />
+
+        <RadioButton
+            android:id="@+id/azalan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/black"
+            android:text="AZALAN" />
+
+    </RadioGroup>
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notesRv"

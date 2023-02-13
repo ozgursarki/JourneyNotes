@@ -7,7 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
-
+import java.util.*
 @Module
 @InstallIn(ViewModelComponent::class)
 
@@ -54,4 +54,11 @@ object DomainModule {
     fun provideSortNoteByDate() : NoteSortUseCase {
         return NoteSortUseCase()
     }
+
+    @Provides
+    @ViewModelScoped
+    fun provideFilterNotesByCountry() : FilterNotesByCountry {
+        return FilterNotesByCountry()
+    }
+
 }

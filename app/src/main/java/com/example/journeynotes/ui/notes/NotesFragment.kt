@@ -5,12 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
+
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.journeynotes.ui.adapter.NotesFragmentAdapter
 import com.example.journeynotes.databinding.FragmentNotesBinding
@@ -58,6 +59,23 @@ class NotesFragment : Fragment() {
         binding.azalan.setOnClickListener {
             viewModel.sortNote(false)
         }
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                viewModel.filterNoteByCountry(query!!)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+
+        })
+
+        binding.searchView.setOnCloseListener {
+            viewModel.getNotesFromDatabase()
+            true
+        }
+
         val recyclerView = binding.notesRv
         recyclerView.adapter = adapter
         recyclerView.layoutManager =

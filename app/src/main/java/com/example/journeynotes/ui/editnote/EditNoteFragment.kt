@@ -46,7 +46,7 @@ class EditNoteFragment : Fragment() {
             val description = binding.description.editText?.text.toString()
             if (title.isNotEmpty() && description.isNotEmpty() && note.id != null) {
                 editNoteViewModel.uptadeNote(title,description,note.id!!, navigateToNotesFragment = {
-                    TODO("This code snippet will be change")
+                    //TODO("This code snippet will be change")
                     requireActivity().onBackPressed()
                 })
 

@@ -1,5 +1,6 @@
 package com.example.journeynotes.ui.notes
 
+import android.location.Geocoder
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,21 +9,21 @@ import com.example.journeynotes.data.NoteRepository
 import com.example.journeynotes.data.local.NoteDatabase.Companion.invoke
 import com.example.journeynotes.data.mapper.toNote
 import com.example.journeynotes.domain.model.Note
-import com.example.journeynotes.domain.use_case.DeleteNote
-import com.example.journeynotes.domain.use_case.EditNotes
-import com.example.journeynotes.domain.use_case.GetAllNotes
-import com.example.journeynotes.domain.use_case.NoteSortUseCase
+import com.example.journeynotes.domain.use_case.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class NotesViewModel @Inject constructor(
     private val getNotesUseCase: GetAllNotes,
     private val deleteNoteUseCase: DeleteNote,
-    private val noteSortUseCase: NoteSortUseCase
+    private val noteSortUseCase: NoteSortUseCase,
+    private val filterNotesByCountryUseCase: FilterNotesByCountry,
+    private val geocoder: Geocoder
 ) : ViewModel() {
 
     private val _notes : MutableStateFlow<NoteScreenUiState> =
@@ -36,7 +37,7 @@ class NotesViewModel @Inject constructor(
         getNotesFromDatabase()
     }
 
-    private fun getNotesFromDatabase() {
+    fun getNotesFromDatabase() {
        viewModelScope.launch {
             val notesUptade = getNotesUseCase.invoke()
             notesUptade.collect {
@@ -46,6 +47,13 @@ class NotesViewModel @Inject constructor(
             }
             }
 
+        }
+    }
+
+    fun filterNoteByCountry(countyName: String) {
+        val notes = filterNotesByCountryUseCase.invoke(geocoder, _notes.value.noteList, countyName)
+        _notes.update { noteScreenUiState ->
+            noteScreenUiState.copy(notes)
         }
     }
 
