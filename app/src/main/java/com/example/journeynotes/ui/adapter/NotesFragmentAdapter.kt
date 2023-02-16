@@ -31,7 +31,8 @@ class NotesFragmentAdapter(
     }
 
     override fun onBindViewHolder(holder: NotesViewHolder, position: Int) {
-        holder.itemView.startAnimation(AnimationUtils.loadAnimation(holder.itemView.context, R.anim.custom_anim2))
+        holder.itemView.startAnimation(AnimationUtils.loadAnimation(holder.itemView.context, R.anim.custom_anim))
+
         holder.bind(noteList[position],deleteNoteCallBack = {
             deleteNoteCallBack.invoke(it)
         },callBackNoteClick = {

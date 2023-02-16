@@ -22,6 +22,7 @@ class NoteBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val note = arguments?.getParcelable<Note>(NOTE)
+        binding.root.setBackgroundResource(note!!.color!!)
         binding.title.editText?.setText(note?.title)
         binding.description.editText?.setText(note?.description)
     }
