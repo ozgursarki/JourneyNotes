@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="300dp"
     app:cardCornerRadius="4dp"
-    android:backgroundTint="@color/noteColor"
     android:layout_margin="10dp"
     app:cardElevation="5dp">
 
@@ -49,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_delete"
-            android:background="@color/noteColor"
+
             tools:layout_editor_absoluteX="339dp"
             tools:layout_editor_absoluteY="28dp"
             android:layout_marginBottom="10dp"
@@ -62,7 +61,6 @@
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_edit"
             tools:layout_editor_absoluteX="284dp"
-            android:background="@color/noteColor"
             tools:layout_editor_absoluteY="50dp"
             android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toTopOf="@id/note_delete"

@@ -21,7 +21,7 @@ fun Note.toNoteEntity(): NoteEntity {
         title = title,
         description = description,
         location = location,
-        color = null,
+        color = color,
         timeStamp = timeStamp
     )
 }

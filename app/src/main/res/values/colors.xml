@@ -11,4 +11,11 @@
     <color name="noteColor">#FFFFab91</color>
     <color name="bottom_nav_selected_icon">#FFFA4006</color>
     <color name="bottom_nav_unselected_icon">#BC654A</color>
+
+    <color name="RedOrange">#ffffab91</color>
+    <color name="RedPink">#fff48fb1</color>
+    <color name="BabyBlue">#ff81deea</color>
+    <color name="Violet">#ffcf94da</color>
+    <color name="LightGreen">#ffe7ed9b</color>
+
 </resources>
