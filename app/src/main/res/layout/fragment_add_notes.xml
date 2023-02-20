@@ -22,28 +22,38 @@
             android:layout_width="wrap_content"
             android:buttonTint="@color/RedOrange"
             android:buttonTintMode="src_in"
+            android:scaleX="2"
+            android:scaleY="2"
             android:layout_height="wrap_content"/>
 
         <RadioButton
             android:id="@+id/redPink"
             android:buttonTint="@color/RedPink"
+            android:scaleX="2"
+            android:scaleY="2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <RadioButton
             android:id="@+id/babyBlue"
             android:buttonTint="@color/BabyBlue"
+            android:scaleX="2"
+            android:scaleY="2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <RadioButton
             android:id="@+id/violet"
             android:buttonTint="@color/Violet"
+            android:scaleX="2"
+            android:scaleY="2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <RadioButton
             android:id="@+id/lightGreen"
+            android:scaleX="2"
+            android:scaleY="2"
             android:buttonTint="@color/LightGreen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

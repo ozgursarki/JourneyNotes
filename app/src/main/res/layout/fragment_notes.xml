@@ -16,6 +16,7 @@
         <RadioButton
             android:id="@+id/artan"
             android:layout_width="wrap_content"
+            android:checked="true"
             android:layout_height="wrap_content"
             android:buttonTint="@color/black"
             android:text="ARTAN" />
